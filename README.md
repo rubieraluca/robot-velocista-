@@ -16,7 +16,7 @@ Este robot combina tres áreas clave:
 | Módulo | Descripción |
 |-------|-------------|
 | Mecánica / estructura | Chasis ligero (por ejemplo, placas PCB ajustables)
-| Electrónica / sensores | Uso de sensores infrarrojos (CNY70 u otros) para detección de la línea
+| Electrónica / sensores | Uso de sensores QRE1113 (QTR8A) para detección de la línea
 | Control / software | Algoritmo PID, filtros (Kalman o similares) y control de motores independientes.
 
 

@@ -23,8 +23,7 @@ Este robot combina tres áreas clave:
 ## 📌 Datos técnicos de referencia
 
 - Proyecto *Diseño e Implementación de un Robot Velocista sobre FPGA* alcanzó velocidad máxima de 2,23 m/s 
-- En el proyecto “el topollo" se usaron placas PCB como estructura, sensores CNY70, regulación con LM317 para control de motores 
-- En tutorial “Robot Velocista Lycan” se propone usar Arduino Nano, motores DC, driver TA6586 y batería LiPo para una versión educativa del velocista   
+- En el proyecto “el topollo" se usaron placas PCB como estructura, sensores QTR8A, regulación con TA6586 para control de motores   
 - Guía de diseño señala que para lograr mayores velocidades se debe optimizar la relación peso-potencia, el coeficiente de fricción de las llantas, la velocidad de los motores y el algoritmo de control 
 
 

@@ -86,5 +86,5 @@ Luca RubieDOWN: SOLDADURA Y ARMADO DE LA PLACA, HIZO EL 3D
 
 
 
-<img width="482" height="273" alt="image" src="https://github.com/user-attachments/assets/e2725af6-33a2-489e-819d-492716dd8be6" />
+<img width="940" height="533" alt="image" src="https://github.com/user-attachments/assets/78c224ac-41c8-41b2-a2e9-bd4ba3b0d4bd" />
 

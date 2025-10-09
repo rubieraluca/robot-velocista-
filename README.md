@@ -1,9 +1,17 @@
 # 🤖 El Velocista – El Topollobot
 
+INTEGRANTES:
+Alfredo Downchez
+Luca Rubiedown
+Dawmian Robledown
+Thiago Mamaya
+
+Fecha: 09/10/25
+
 > Robot seguidor de línea que busca completar circuitos a altas velocidades, con un diseño mecanico y electronico.
 
 
-## 🎯 Visión general
+## 🎯 Visión general y Objetivos
 
 El proyecto "El topollo" consiste  diseñar y construir un robot velocista capaz de:
 
@@ -30,3 +38,39 @@ Este robot combina tres áreas clave:
 - Guía de diseño señala que para lograr mayores velocidades se debe optimizar la relación peso-potencia, el coeficiente de fricción de las llantas, la velocidad de los motores y el algoritmo de control 
 
 
+
+Componentes Utilizados
+
+-Arduino Nano
+-TA6586
+-QTR8A
+-Capacitores de 100nF y 470uF
+-Resistencias de 1k y 10k 
+-Motores POLOLU de 2000 RPM
+-Placa de cobre 10x10
+-Percloruro
+-Led
+-Soldador
+-Pineras macho y hembra
+-ETC
+
+DESCRIPCIONES DE QUE HIZO CADA UNO:
+
+Alfredo DOWNchez: AYUDO A AMAYA CON EL PCB Y EL ESQUEMATICO
+Thiago Mamaya: ESQUEMATICO Y PCB
+DAWNmian RobleDOWN: SOLDADURA Y ARMADO DE LA PLACA, DISEÑO LOGISTICO DEL ROBOT
+Luca RubieDOWN: SOLDADURA Y ARMADO DE LA PLACA, HIZO EL 3D
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img width="668" height="536" alt="image" src="https://github.com/user-attachments/assets/e52d0821-a702-4e8b-bea2-362a55beacd8" />

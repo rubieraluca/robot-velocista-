@@ -100,47 +100,80 @@ Luca RubieDOWN: SOLDADURA Y ARMADO DE LA PLACA, HIZO EL 3D
 PASOS PARA ARMAR EL PROYECTO
 
 1)Armado del esquematico y PCB
+
 2)Comprar componentes segun necesidades y analizar cual comprar
+
 3)imprimir el PCB y plancharlo en la placa y sacarle el papel al enfriarse
+
 4)Tirar la placa en percloruro y sacarlo hasta que se coma el cobre
+
 5)Hacer los agujeros en los lugares correspondientes
+
 6)Probar que los componentes anden
+
 7)Empezamos a montar los componentes en la placa soldandolos 
+
 8)Hacer el 3D de la carroceria del robot
+
 9)Hacer el codigo para el funcionamiento del velocista
+
 10)Poner la placa en la carroceria
+
 11)Cargar el codigo en el arduino
+
 12)Probar que funcione
+
 13)Fin
 
 
 Herramientas necesarias
 
+
 -pinza y alicate
+
 -chupa estaño
+
 -soldador de estaño
+
 -estaño
+
 -percloruro
+
 -birulana
+
 -agua
+
 -las manos y cabeza
+
 -computadora 
+
 -impresora y papel
+
 -plancha
+
+
 -agujeriadora y mechas 
+
 -destornilladores 
+
 -impresora 3d 
+
 -flux
 
 Precauciones de seguridad 
 
+
 -no estas boludiando
+
 -no tocar acido
+
 -estar atentos
+
 -no ser down 
 y vas a andar bien 
 
-soldamos con lapiz soldador 
 
+soldamos con lapiz soldador 
+y las manos
 
 datasheet en carpeta "los topollos"

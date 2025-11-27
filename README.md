@@ -1,10 +1,11 @@
 # 🤖 El Velocista – El Topollobot
 
 INTEGRANTES:
-Alfredo Downchez
-Luca Rubiedown
-Dawmian Robledown
-Thiago Mamaya
+Alfredo Sánchez 
+Luca Rubiera
+Damian Robledo
+Thiago Amaya
+Limachi Rubiera
 
 Fecha: 09/10/25
 
@@ -56,15 +57,15 @@ Componentes Utilizados
 
 DESCRIPCIONES DE QUE HIZO CADA UNO:
 
-Alfredo DOWNchez: AYUDO A AMAYA CON EL PCB Y EL ESQUEMATICO(CLASH ROYALE)
+Alfredo Sanchez: AYUDO A AMAYA CON EL PCB Y EL ESQUEMATICO
 
-Thiago Mamaya: ESQUEMATICO Y PCB
+Thiago Amaya: ESQUEMATICO Y PCB
 
-DAWNmian RobleDOWN: SOLDADURA Y ARMADO DE LA PLACA, DISEÑO LOGISTICO DEL ROBOT
+DAMIAN Robledo: SOLDADURA Y ARMADO DE LA PLACA, DISEÑO LOGISTICO DEL ROBOT
 
-Luca RubieDOWN: SOLDADURA Y ARMADO DE LA PLACA, HIZO EL 3D
+Luca Rubiera: SOLDADURA Y ARMADO DE LA PLACA, HIZO EL 3D
 
-
+Limachi Lautaro: Soldaduras, codigo y montaje de la placa
 
 
 

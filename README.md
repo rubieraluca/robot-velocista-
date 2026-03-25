@@ -76,10 +76,14 @@ Limachi Lautaro: Soldaduras, codigo y montaje de la placa
 
 
 
-
+FOTO DEL PCB
 
 
 <img width="807" height="531" alt="pcb1" src="https://github.com/user-attachments/assets/41223b86-7a31-4078-b538-94c6a3f1f5da" />
+
+
+
+
 
 
 
@@ -104,7 +108,16 @@ Limachi Lautaro: Soldaduras, codigo y montaje de la placa
 
 
 
+
+
+FOTO DEL 3D
+
+
+
 <img width="626" height="499" alt="3D MAIN 1" src="https://github.com/user-attachments/assets/12de033e-0eeb-4488-b45f-cd6ead164e80" />
+
+
+
 
 
 

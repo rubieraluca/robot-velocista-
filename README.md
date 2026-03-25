@@ -4,8 +4,8 @@ INTEGRANTES:
 Alfredo Sánchez 
 Luca Rubiera
 Damian Robledo
-Thiago Amaya
-Limachi Rubiera
+osuna luca
+
 
 Fecha: 09/10/25
 

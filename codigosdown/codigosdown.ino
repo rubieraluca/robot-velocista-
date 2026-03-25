@@ -1,5 +1,9 @@
 #include <Arduino.h>
 
+// --- DEFINICIONES GLOBALES (ANTES DE LAS CLASES) ---
+// Para que NUM_SENSORES sea conocido en la clase Robot_Velocista
+#define NUM_SENSORES 8
+
 // CLASE MOTOR
 
 class Motor
@@ -11,8 +15,14 @@ private:
 public:
   Motor(int inA, int inB) : _inA(inA), _inB(inB)
   {
+    // Es mejor usar ledcAttachPin() para asociar el pin con un canal PWM en ESP32
+    // Pero para simplificar y mantener la lógica original, asumiremos que
+    // ledcWrite() está manejando implícitamente la configuración si los pines son PWM.
+    // Sin embargo, en un entorno ESP32 real, deberías usar ledcSetup y ledcAttachPin
     pinMode(_inA, OUTPUT);
     pinMode(_inB, OUTPUT);
+    // Para simplificar, asumimos que ledcWrite() es la forma correcta para mover
+    // el motor con PWM en ESP32 para este ejemplo.
   }
 
   void mover(int velocidad)
@@ -22,16 +32,20 @@ public:
 
     if (velocidad > 0)
     {
+      // Adelante (Motor A en HIGH/PWM, Motor B en LOW/0)
       ledcWrite(_inA, velocidad);
       ledcWrite(_inB, 0);
     }
     else if (velocidad < 0)
     {
+      // Atrás (Motor A en LOW/0, Motor B en HIGH/PWM)
+      // Usamos el valor absoluto de la velocidad para el PWM
       ledcWrite(_inA, 0);
       ledcWrite(_inB, -velocidad);
     }
     else
     {
+      // Detener
       ledcWrite(_inA, 0);
       ledcWrite(_inB, 0);
     }
@@ -52,46 +66,62 @@ private:
   Motor _motorIzq;
   Motor _motorDer;
   int _velocidadBase;
-  int _pinesSensores;
+  // El array de pines debe ser almacenado como un puntero o un array estático
+  const int* _pinesSensores; 
   int _numSensores;
+
   // PID
-  float Kp = 0.15;
-  float Ki = 0.0;
-  float Kd = 0.8;
-  // UMBRAL
-  int umbral;
-  int error = 0;
-  int ultimoError = 0;
+  float _Kp; // Añadir el prefijo '_' para variables miembro
+  float _Ki;
+  float _Kd;
+
+  // Integral (falta en tu código original, necesaria para Ki)
+  float _integral = 0.0;
+
+  // UMBRAL y ERRORES
+  int _umbral; // Añadir el prefijo '_'
+  // int _error = 0; // Se calcula en seguirLinea(), no es necesario guardarlo como miembro
+  int _ultimoError = 0; // Añadir el prefijo '_'
 
 public:
+  // Constructor: Se modifican los parámetros y la lista de inicialización
   Robot_Velocista(int inA_izq, int inB_izq, int inA_der, int inB_der,
-                  int const pinesSensores[8],
-                  int numSensores, int velocidadBase = 150,
+                  const int pinesSensores[], // Recibe el array como puntero
+                  int numSensores,
+                  int velocidadBase = 150,
                   float Kp = 0.15, float Ki = 0.0, float Kd = 0.8,
                   int umbral = 500)
 
+      // Lista de inicialización corregida: se usan los prefijos '_'
       : _motorIzq(inA_izq, inB_izq),
         _motorDer(inA_der, inB_der),
         _velocidadBase(velocidadBase),
-        _pinesSensores(pinesSensores),
+        _pinesSensores(pinesSensores), // Inicializa el puntero con el puntero recibido
         _numSensores(numSensores),
         _Kp(Kp), _Ki(Ki), _Kd(Kd),
-        _error(error),
-        _ultimoError(ultimoError),
+        // No inicializamos _ultimoError en la lista, ya tiene valor por defecto
         _umbral(umbral)
   {
+    // En el constructor: configuramos los pines como INPUT
+    // Ya que _pinesSensores ahora apunta al array pinesSensores global/pasado,
+    // usamos ese puntero para configurar los pines.
     for (int i = 0; i < _numSensores; i++)
     {
-      _pinesSensores[i] = pinesSensores[i];
-      pinMode(_pinesSensores[i], INPUT);
+      // pinMode() necesita el valor del pin, que está en la posición i del array
+      pinMode(_pinesSensores[i], INPUT); 
     }
-
-    void setUmbral(int u)
-    {
-      _umbral = constrain(u, 0, 1023);
-    }
+    
+    // La función 'setUmbral' estaba definida DENTRO del constructor, lo que es un error
+    // Se ha movido fuera del constructor como un método público.
   }
-  //////////////////////////////////////////////////
+  
+  // --- MÉTODOS PÚBLICOS ---
+
+  void setUmbral(int u)
+  {
+    _umbral = constrain(u, 0, 1023);
+  }
+
   void setVelocidadBase(int vel)
   {
     _velocidadBase = constrain(vel, 0, 255);
@@ -126,25 +156,30 @@ public:
 
   int leerLinea()
   {
+    // NUM_SENSORES está definido como macro al inicio del archivo
     int valores[NUM_SENSORES];
-    int suma = 0;
-    int sumaPonderada = 0;
+    long suma = 0; // Usar long para evitar desbordamiento en sumas grandes
+    long sumaPonderada = 0;
 
     // Leer sensores
     for (int i = 0; i < NUM_SENSORES; i++)
     {
-      valores[i] = digitalRead(pinesSensores[i]);
+      // Usamos el puntero a los pines miembro _pinesSensores
+      // Leemos los pines como digitales (0 o 1). Si fueran analógicos, sería analogRead().
+      valores[i] = digitalRead(_pinesSensores[i]); 
       suma += valores[i];
-      sumaPonderada += valores[i] * i * 1000;
+      sumaPonderada += (long)valores[i] * i * 1000;
     }
 
-    // Calcular posición (-3500 a 3500 para 8 sensores)
+    // Calcular posición (-3500 a 3500 para 8 sensores, si se usa 0-7 como peso)
     if (suma == 0)
     {
-      return ultimoError; // Mantener último error si no detecta línea
+      return _ultimoError; // Usar _ultimoError (variable miembro)
     }
 
-    int posicion = (sumaPonderada / suma) - ((NUM_SENSORES - 1) * 500);
+    // Posición centrada es: (NUM_SENSORES - 1) * 1000 / 2 = 7 * 1000 / 2 = 3500
+    // La posición retornada será (sumaPonderada / suma) - 3500
+    int posicion = (int)(sumaPonderada / suma) - ((NUM_SENSORES - 1) * 500); 
     return posicion;
   }
 
@@ -154,20 +189,23 @@ public:
     int error = posicion; // El error es la posición (0 = centrado)
 
     // Cálculo PID
-    int proporcional = error;
-    int derivativo = error - _ultimoError;
+    float proporcional = error;
 
-    int correccion = (Kp * proporcional) + (Ki * _integral) + (Kd * derivativo);
+    // Cálculo de la integral (si se usa Ki)
+    _integral += error; 
+
+    float derivativo = error - _ultimoError; // Usar _ultimoError
+
+    // Se usa float para el cálculo y luego se convierte a int para la corrección
+    int correccion = (int)((_Kp * proporcional) + (_Ki * _integral) + (_Kd * derivativo));
 
     int velIzq = _velocidadBase + correccion;
     int velDer = _velocidadBase - correccion;
 
     _motorIzq.mover(velIzq);
     _motorDer.mover(velDer);
-    // Aplicar corrección
-    // robot.girar(correccion);
 
-    ultimoError = error;
+    _ultimoError = error; // Guardar el error actual para la próxima iteración
   }
 
   void info()
@@ -176,13 +214,15 @@ public:
     Serial.print("Velocidad base: ");
     Serial.println(_velocidadBase);
     Serial.print("Kp: ");
-    Serial.println(_Kp);
+    Serial.println(_Kp); // Usar _Kp (variable miembro)
     Serial.print("Ki: ");
-    Serial.println(_Ki);
+    Serial.println(_Ki); // Usar _Ki (variable miembro)
     Serial.print("Kd: ");
-    Serial.println(_Kd);
+    Serial.println(_Kd); // Usar _Kd (variable miembro)
     Serial.print("Umbral: ");
-    Serial.println(_umbral);
+    Serial.println(_umbral); // Usar _umbral (variable miembro)
+    Serial.print("Numero de Sensores: ");
+    Serial.println(_numSensores);
   }
 };
 
@@ -194,12 +234,13 @@ public:
 #define MOTOR_DER_B 4
 
 // Pines del sensor QTR
-#define NUM_SENSORES 8
-const int pinesSensores[NUM_SENSORES] = {2, 3, 4, 5, 6, 7, 8, A0};
+const int pinesSensores[NUM_SENSORES] = {34, 35, 32, 33, 25, 26, 28, 14}; 
+// NUM_SENSORES debe estar definido ANTES de su uso aquí
 
-// VARIABLES GLOBALES
-
-Robot Robot_Velocista(MOTOR_IZQ_A, MOTOR_IZQ_B, MOTOR_DER_A, MOTOR_DER_B, &pinesSensores, 150);
+Robot_Velocista robot(MOTOR_IZQ_A, MOTOR_IZQ_B, MOTOR_DER_A, MOTOR_DER_B, 
+                      pinesSensores, 
+                      NUM_SENSORES, 
+                      150);
 
 void setup()
 {
@@ -211,5 +252,5 @@ void setup()
 
 void loop()
 {
-  seguirLinea();
+  robot.seguirLinea(); // 'seguirLinea' es un método de la instancia 'robot'
 }
